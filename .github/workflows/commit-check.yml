@@ -24,7 +24,7 @@ jobs:
 
       - name: Create .env file
         run: |
-          echo "GITHUB_USERNAME=${{ secrets.GITHUB_USERNAME }}" >> .env
+          echo "USERNAME=${{ secrets.USERNAME }}" >> .env
           echo "TWILIO_ACCOUNT_SID=${{ secrets.TWILIO_ACCOUNT_SID }}" >> .env
           echo "TWILIO_AUTH_TOKEN=${{ secrets.TWILIO_AUTH_TOKEN }}" >> .env
           echo "TO_WHATSAPP=${{ secrets.TO_WHATSAPP }}" >> .env

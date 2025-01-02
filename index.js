@@ -2,7 +2,7 @@ const axios = require("axios");
 const { Client } = require("twilio");
 require("dotenv").config();
 
-const githubUsername = process.env.GITHUB_USERNAME;
+const githubUsername = process.env.USERNAME;
 const accountSid = process.env.TWILIO_ACCOUNT_SID;
 const authToken = process.env.TWILIO_AUTH_TOKEN;
 const toWhatsapp = process.env.TO_WHATSAPP;
