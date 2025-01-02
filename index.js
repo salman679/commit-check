@@ -1,19 +1,20 @@
 const axios = require("axios");
-const { Client } = require("twilio");
+const twilio = require("twilio");
 require("dotenv").config();
 
-const githubUsername = process.env.USERNAME;
+const githubUsername = process.env.GITHUB_USERNAME;
 const accountSid = process.env.TWILIO_ACCOUNT_SID;
 const authToken = process.env.TWILIO_AUTH_TOKEN;
 const toWhatsapp = process.env.TO_WHATSAPP;
 const fromWhatsapp = process.env.FROM_WHATSAPP;
 
-const client = new Client(accountSid, authToken);
+const client = twilio(accountSid, authToken); // Use the correct way to initialize Twilio client
 
 async function checkGitHubCommit() {
   const url = `https://api.github.com/users/${githubUsername}/events`;
   try {
     const response = await axios.get(url);
+    console.log("GitHub API Response:", response.data); // Debugging the GitHub response
     const events = response.data;
 
     const today = new Date().toISOString().split("T")[0];
@@ -21,6 +22,8 @@ async function checkGitHubCommit() {
       (event) =>
         event.type === "PushEvent" && event.created_at.startsWith(today)
     );
+
+    console.log("Commit Found:", commitFound); // Debugging if commit is found
 
     if (commitFound) {
       sendWhatsAppMessage("✅ আজ আপনি কোড পুশ করেছেন! চালিয়ে যান!");
@@ -35,6 +38,7 @@ async function checkGitHubCommit() {
 }
 
 function sendWhatsAppMessage(message) {
+  console.log("Sending WhatsApp message:", message); // Debugging the message being sent
   client.messages
     .create({
       from: fromWhatsapp,
@@ -49,5 +53,5 @@ function sendWhatsAppMessage(message) {
     });
 }
 
-// স্ক্রিপ্ট রান
+// Run script
 checkGitHubCommit();
