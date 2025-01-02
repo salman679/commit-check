@@ -11,7 +11,7 @@ const authToken = process.env.TWILIO_AUTH_TOKEN;
 const client = twilio(accountSid, authToken); // Use the correct way to initialize Twilio client
 
 async function checkGitHubCommit() {
-  const url = `https://api.github.com/users/${githubUsername}/events`;
+  const url = `https://api.github.com/users/salman679/events`;
   console.log(url)
   try {
     const response = await axios.get(url);
