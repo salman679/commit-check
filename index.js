@@ -15,7 +15,7 @@ async function checkGitHubCommit() {
   try {
     const response = await axios.get(url);
 
-        console.log(githubUsername, accountSid);
+        console.log(githubUsername, accountSid, authToken, toWhatsapp, fromWhatsapp);
 
 
     const events = response.data;
