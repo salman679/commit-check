@@ -1,8 +1,9 @@
-const axios = require("axios");
-const twilio = require("twilio");
-require("dotenv").config();
+import axios from "axios";
+import twilio from "twilio";
+import dotenv from "dotenv";
+dotenv.config();
 
-const githubUsername = process.env.GITHUB_USERNAME;
+const githubUsername = process.env.gitHubUSERNAME;
 const accountSid = process.env.TWILIO_ACCOUNT_SID;
 const authToken = process.env.TWILIO_AUTH_TOKEN;
 const toWhatsapp = process.env.TO_WHATSAPP;
@@ -14,25 +15,20 @@ async function checkGitHubCommit() {
   const url = `https://api.github.com/users/${githubUsername}/events`;
   try {
     const response = await axios.get(url);
-    console.log("GitHub API Response:", response.data); // Debugging the GitHub response
+
     const events = response.data;
 
-    const today = new Date();
-const todayUTC = new Date(today.getTime() + (today.getTimezoneOffset() * 60000)); // Adjusting for UTC
-const todayString = todayUTC.toISOString().split('T')[0]; // Use the correct UTC date
-
+    const today = new Date().toISOString().split("T")[0];
     const commitFound = events.some(
       (event) =>
-        event.type === "PushEvent" && event.created_at.startsWith(todayString)
+        event.type === "PushEvent" && event.created_at.startsWith(today)
     );
 
-    console.log("Commit Found:", commitFound); // Debugging if commit is found
-
     if (commitFound) {
-      sendWhatsAppMessage("✅ আজ আপনি কোড পুশ করেছেন! চালিয়ে যান!");
+      sendWhatsAppMessage("✅ You have pushed code today! Keep it up!");
     } else {
       sendWhatsAppMessage(
-        "⚠️ আজ আপনি কোনো কোড পুশ করেননি! দয়া করে GitHub-এ কিছু কোড পুশ করুন!"
+        "⚠️ You haven't pushed any code today! Please push some code to GitHub!"
       );
     }
   } catch (error) {
