@@ -17,10 +17,13 @@ async function checkGitHubCommit() {
     console.log("GitHub API Response:", response.data); // Debugging the GitHub response
     const events = response.data;
 
-    const today = new Date().toISOString().split("T")[0];
+    const today = new Date();
+const todayUTC = new Date(today.getTime() + (today.getTimezoneOffset() * 60000)); // Adjusting for UTC
+const todayString = todayUTC.toISOString().split('T')[0]; // Use the correct UTC date
+
     const commitFound = events.some(
       (event) =>
-        event.type === "PushEvent" && event.created_at.startsWith(today)
+        event.type === "PushEvent" && event.created_at.startsWith(todayString)
     );
 
     console.log("Commit Found:", commitFound); // Debugging if commit is found
