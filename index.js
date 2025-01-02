@@ -17,25 +17,28 @@ async function checkGitHubCommit() {
     const events = response.data;
 
     const today = new Date().toISOString().split("T")[0];
-    const commitFound = events.some((event) =>
-      event.created_at.startsWith(today)
+    const commitFound = events.some(
+      (event) =>
+        event.type === "PushEvent" && event.created_at.startsWith(today)
     );
 
-    if (!commitFound) {
-      sendWhatsAppMessage();
+    if (commitFound) {
+      sendWhatsAppMessage("✅ আজ আপনি কোড পুশ করেছেন! চালিয়ে যান!");
     } else {
-      console.log("Commit found for today. No message sent.");
+      sendWhatsAppMessage(
+        "⚠️ আজ আপনি কোনো কোড পুশ করেননি! দয়া করে GitHub-এ কিছু কোড পুশ করুন!"
+      );
     }
   } catch (error) {
     console.error("Error fetching GitHub data:", error);
   }
 }
 
-function sendWhatsAppMessage() {
+function sendWhatsAppMessage(message) {
   client.messages
     .create({
       from: fromWhatsapp,
-      body: "আজকে আপনি কোনো কোড পুশ করেননি! দয়া করে GitHub-এ কিছু কোড পুশ করুন!",
+      body: message,
       to: toWhatsapp,
     })
     .then((message) => {
