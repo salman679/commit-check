@@ -1,7 +1,6 @@
-import axios from "axios";
-import twilio from "twilio";
-import dotenv from "dotenv";
-dotenv.config();
+const axios = require("axios");
+const twilio = require("twilio");
+require("dotenv").config();
 
 const githubUsername = process.env.gitHubUSERNAME;
 const accountSid = process.env.TWILIO_ACCOUNT_SID;
