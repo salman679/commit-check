@@ -15,6 +15,9 @@ async function checkGitHubCommit() {
   try {
     const response = await axios.get(url);
 
+        console.log(githubUsername);
+
+
     const events = response.data;
 
     const today = new Date();
