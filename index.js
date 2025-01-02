@@ -12,10 +12,11 @@ const client = twilio(accountSid, authToken); // Use the correct way to initiali
 
 async function checkGitHubCommit() {
   const url = `https://api.github.com/users/${githubUsername}/events`;
+  console.log(url)
   try {
     const response = await axios.get(url);
 
-    console.log(process.env);
+    
 
         console.log(githubUsername, accountSid, authToken, toWhatsapp, fromWhatsapp);
 
