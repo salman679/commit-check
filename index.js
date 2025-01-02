@@ -17,11 +17,20 @@ async function checkGitHubCommit() {
 
     const events = response.data;
 
-    const today = new Date().toISOString().split("T")[0];
-    const commitFound = events.some(
-      (event) =>
-        event.type === "PushEvent" && event.created_at.startsWith(today)
+    const today = new Date();
+    const todayUTC = new Date(
+      today.getTime() + today.getTimezoneOffset() * 60000
     );
+    const todayString = todayUTC.toISOString().split("T")[0];
+
+    const commitFound = events.some((event) => {
+      console.log(event.created_at);
+      return (
+        event.type === "PushEvent" && event.created_at.startsWith(todayString)
+      );
+    });
+
+    console.log("Commit Found:", commitFound);
 
     if (commitFound) {
       sendWhatsAppMessage("✅ You have pushed code today! Keep it up!");
