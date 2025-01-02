@@ -5,6 +5,8 @@ require("dotenv").config();
 const githubUsername = process.env.GITHUBUSERNAME;
 const toWhatsapp = process.env.TO_WHATSAPP;
 const fromWhatsapp = process.env.FROM_WHATSAPP;
+const accountSid = process.env.TWILIO_ACCOUNT_SID;
+const authToken = process.env.TWILIO_AUTH_TOKEN;
 
 const client = twilio(accountSid, authToken); // Use the correct way to initialize Twilio client
 
